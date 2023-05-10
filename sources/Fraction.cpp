@@ -1,7 +1,4 @@
 #include <stdexcept>
-#include <fstream>
-#include <sstream>
-#include <cmath>
 #include "Fraction.hpp"
 
 using namespace std;
@@ -62,7 +59,7 @@ namespace ariel
     {
         long long numerator = (long long)(this->_numerator * frac._denominator) + (long long)(frac._numerator * this->_denominator);
         long long denominator = (long long)(this->_denominator) * (long long)(frac._denominator);
-        
+
         if (numerator > POS_INF || numerator < NEG_INF || denominator > POS_INF || denominator < NEG_INF)
         {
             throw overflow_error("Overflow");
@@ -82,7 +79,14 @@ namespace ariel
 
     Fraction Fraction::operator-(const Fraction &frac)
     {
-        return *this + Fraction(-1*frac._numerator, frac._denominator);
+        long long numerator = (long long)(this->_numerator * frac._denominator) - (long long)(frac._numerator * this->_denominator);
+        long long denominator = (long long)(this->_denominator) * (long long)(frac._denominator);
+
+        if (numerator > POS_INF || numerator < NEG_INF || denominator > POS_INF || denominator < NEG_INF)
+        {
+            throw overflow_error("Overflow");
+        }
+        return Fraction(numerator, denominator);
     }
 
     Fraction Fraction::operator-(float num)
