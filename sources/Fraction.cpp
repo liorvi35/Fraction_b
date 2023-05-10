@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
-#include <cmath>   
+#include <cmath>
 #include "Fraction.hpp"
 
 using namespace std;
@@ -44,9 +44,14 @@ namespace ariel
         }
         else
         {
-            if(numerator == POS_INF && denominator == POS_INF)
+            if ((numerator == POS_INF && denominator == POS_INF) || (numerator == NEG_INF && denominator == NEG_INF))
             {
                 this->_numerator = 1;
+                this->_denominator = 1;
+            }
+            else if ((numerator == POS_INF && denominator == NEG_INF) || (numerator == NEG_INF && denominator == POS_INF))
+            {
+                this->_numerator = -1;
                 this->_denominator = 1;
             }
         }
@@ -55,11 +60,12 @@ namespace ariel
 
     Fraction Fraction::operator+(const Fraction &frac)
     {
-        long long numerator = (long long)(this->_numerator * frac._denominator + frac._numerator * this->_denominator);
-        long long denominator = (long long)(this->_denominator * frac._denominator);
-        if (numerator >= POS_INF || denominator <= NEG_INF || numerator >= POS_INF || denominator <= NEG_INF)
+        long long numerator = (long long)(this->_numerator * frac._denominator) + (long long)(frac._numerator * this->_denominator);
+        long long denominator = (long long)(this->_denominator) * (long long)(frac._denominator);
+        
+        if (numerator > POS_INF || numerator < NEG_INF || denominator > POS_INF || denominator < NEG_INF)
         {
-            throw std::overflow_error("Overflow");
+            throw overflow_error("Overflow");
         }
         return Fraction(numerator, denominator);
     }
@@ -76,7 +82,7 @@ namespace ariel
 
     Fraction Fraction::operator-(const Fraction &frac)
     {
-        return *this + Fraction(-1 * frac._numerator, frac._denominator);
+        return *this + Fraction(-1*frac._numerator, frac._denominator);
     }
 
     Fraction Fraction::operator-(float num)
@@ -91,11 +97,11 @@ namespace ariel
 
     Fraction Fraction::operator*(const Fraction &frac)
     {
-        long long numerator = (long long)(this->_numerator * frac._numerator);
-        long long denominator = (long long)(this->_denominator * frac._denominator);
-        if (numerator >= POS_INF || numerator <= NEG_INF || denominator >= POS_INF || denominator <= NEG_INF)
+        long long numerator = (long long)(this->_numerator) * (long long)(frac._numerator);
+        long long denominator = (long long)(this->_denominator) * (long long)(frac._denominator);
+        if (numerator > POS_INF || numerator < NEG_INF || denominator > POS_INF || denominator < NEG_INF)
         {
-            throw std::overflow_error("Overflow 123");
+            throw overflow_error("Overflow");
         }
         return Fraction(numerator, denominator);
     }
