@@ -1,62 +1,79 @@
-#ifndef _FRACTION_HPP_
-#define _FRACTION_HPP_
+#ifndef FRACTION_HPP
+#define FRACTION_HPP
 
+#include <limits>
 #include <iostream>
 
 using namespace std;
+
+#define POS_INF std::numeric_limits<int>::max()
+#define NEG_INF std::numeric_limits<int>::min()
 
 namespace ariel
 {
     class Fraction
     {
-        private:
-            int _numerator, _denominator;
-        
-        public:
-            Fraction();
+    private:
+        int _numerator;
+        int _denominator;
+        void _reduce();
 
-            Fraction(int, int);
+    public:
+        Fraction();
+        Fraction(int, int);
+        Fraction(float);
 
-            Fraction(float);
+        int getNumerator();
+        int getDenominator();
 
-            int getNumerator();
+        Fraction operator+(const Fraction&);
+        Fraction operator+(float);
+        friend Fraction operator+(float, const Fraction&);
 
-            int getDenominator();
+        Fraction operator-(const Fraction&);
+        Fraction operator-(float);
+        friend Fraction operator-(float, const Fraction&);
 
-            friend Fraction operator+(const Fraction&, const Fraction&);
+        Fraction operator*(const Fraction&);
+        Fraction operator*(float);
+        friend Fraction operator*(float, const Fraction&);
 
-            friend Fraction operator-(const Fraction&, const Fraction&);
+        Fraction operator/(const Fraction&);
+        Fraction operator/(float);
+        friend Fraction operator/(float, const Fraction&);
 
-            friend Fraction operator*(const Fraction&, const Fraction&);
+        Fraction &operator++();
+        Fraction operator++(int);
 
-            friend Fraction operator/(const Fraction&, const Fraction&);
+        Fraction &operator--();
+        Fraction operator--(int);
 
-            Fraction operator++(int);
+        bool operator==(const Fraction&) const;
+        bool operator==(float) const;
+        friend bool operator==(float, const Fraction&);
 
-            Fraction operator++();
+        bool operator!=(const Fraction&) const;
+        bool operator!=(float) const;
+        friend bool operator!=(float, const Fraction&);
 
-            Fraction operator--(int);
+        bool operator>(const Fraction&) const;
+        bool operator>(float) const;
+        friend bool operator>(float, const Fraction&);
 
-            Fraction operator--();
+        bool operator<(float) const;
+        bool operator<(const Fraction&) const;
+        friend bool operator<(float, const Fraction&);
 
-            friend bool operator>(const Fraction&, const Fraction&);
+        bool operator>=(const Fraction&) const;
+        bool operator>=(float) const;
+        friend bool operator>=(float, const Fraction&);
 
-            friend bool operator>=(const Fraction&, const Fraction&);
+        bool operator<=(const Fraction&) const;
+        bool operator<=(float) const;
+        friend bool operator<=(float, const Fraction&);
 
-            friend bool operator>(const Fraction&, const Fraction&);    
-
-            friend bool operator<(const Fraction&, const Fraction&);
-
-            friend bool operator<=(const Fraction&, const Fraction&);
-
-            friend bool operator==(const Fraction&, const Fraction&);
-
-            friend bool operator!=(const Fraction&, const Fraction&);
-
-            friend ostream& operator<<(ostream&, const Fraction&);
-
-            friend istream& operator>>(istream&, Fraction&);
+        friend ostream &operator<<(ostream&, const Fraction&);
+        friend istream &operator>>(istream&, Fraction&);
     };
 }
-
 #endif
